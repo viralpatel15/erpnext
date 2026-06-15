@@ -207,8 +207,17 @@ frappe.ui.form.on("Stock Entry", {
 			frm.add_custom_button(
 				__("Quality Inspection(s)"),
 				() => {
+					const outgoing_purposes = [
+						"Material Issue",
+						"Material Transfer for Manufacture",
+						"Material Consumption for Manufacture",
+						"Send to Subcontractor",
+						"Return Raw Material to Customer",
+						"Subcontracting Delivery",
+					];
+					const inspection_type = outgoing_purposes.includes(frm.doc.purpose) ? "Outgoing" : "Incoming";
 					let transaction_controller = new erpnext.TransactionController({ frm: frm });
-					transaction_controller.make_quality_inspection();
+					transaction_controller.make_quality_inspection(inspection_type);
 				},
 				__("Create")
 			);

@@ -2820,7 +2820,7 @@ erpnext.TransactionController = class TransactionController extends erpnext.taxe
 		return has_discount;
 	}
 
-	make_quality_inspection() {
+	make_quality_inspection(passed_inspection_type) {
 		let data = [];
 		const fields = [
 			{
@@ -2894,11 +2894,11 @@ erpnext.TransactionController = class TransactionController extends erpnext.taxe
 		];
 
 		const me = this;
-		const inspection_type = ["Purchase Receipt", "Purchase Invoice", "Subcontracting Receipt"].includes(
-			this.frm.doc.doctype
-		)
-			? "Incoming"
-			: "Outgoing";
+		const inspection_type = passed_inspection_type || (
+			["Purchase Receipt", "Purchase Invoice", "Subcontracting Receipt"].includes(this.frm.doc.doctype)
+				? "Incoming"
+				: "Outgoing"
+		);
 		const dialog = new frappe.ui.Dialog({
 			title: __("Select Items for Quality Inspection"),
 			size: "extra-large",
